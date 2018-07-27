@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="countries11")
+@Table(name="countries")
 public class CountryHlo {
 	
 	@Id
@@ -25,7 +25,7 @@ public class CountryHlo {
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="csno")
-	@OrderColumn(name="index")
+	@OrderColumn(name="listint")
 	List<StateHlo> list;
 	public void setList(List<StateHlo> list) {
 		this.list = list;
@@ -45,5 +45,11 @@ public class CountryHlo {
 	public void setCountryname(String countryname) {
 		this.countryname = countryname;
 	}
+	@Override
+	public String toString() {
+		return "CountryHlo [csno=" + csno + ", countryname=" + countryname + ", list=" + list + "]";
+	}
+	
+	
 	
 }

@@ -1,6 +1,8 @@
 package com.neosoft.controller;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neosoft.authenticate.EmployeeRegistrationcommand;
 import com.neosoft.authenticate.EmployeeRegistrationdto;
@@ -25,13 +28,7 @@ public class EmployeeController {
 	
 	
 	
-	public List<String> getCounties(){
-		
-		
-		
-		return null;
-		
-	}
+	
 	
 	@RequestMapping(value="auth.do",method=RequestMethod.POST)
 	public String handlerAuthenticateDetails(@ModelAttribute("registrationcommand") 
@@ -55,14 +52,25 @@ public class EmployeeController {
 	//	return "";
 		
 	}
-	@RequestMapping(value="c.do",method=RequestMethod.GET)
-	public void createCountries(){
+@RequestMapping(value="c.do",method=RequestMethod.GET)
+	public String getListedCountries(Map<String,Map<String,Integer>> map){
 		
-		dao.createCountries();
-	//	return "";
-		
-	}
-	
-	
+	//	dao.createCountries();
+		LinkedHashMap<String,Integer> countrieslist= dao.getCountries();
+		System.out.println(countrieslist+"................");
+		map.put("countries", countrieslist);
+		return "countries";
+}
+@RequestMapping(value="states.do",method=RequestMethod.GET)
+public  @ResponseBody ArrayList<Object> getListedStates(@RequestParam("id") String id,Map<String,ArrayList<Object>> list){
+	System.out.println("uday"+"...............ajax executed.");
+	System.out.println(id+".....id got");
+//	dao.createCountries();
+	ArrayList<Object> statelist= dao.getStates(Integer.valueOf(id));
+
+	list.put("states", statelist);
+	return statelist;
+}
+
 
 }

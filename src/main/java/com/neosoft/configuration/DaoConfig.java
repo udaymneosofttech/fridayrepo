@@ -11,6 +11,8 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
 import com.neosoft.authenticate.EmployeeRegistrationHLO;
+import com.nt.domain.CountryHlo;
+import com.nt.domain.StateHlo;
 
 @Configuration
 @ComponentScan(value="com.neosoft.repository")
@@ -34,11 +36,11 @@ public BasicDataSource getDataSource(){
 		
 		LocalSessionFactoryBean factory=new LocalSessionFactoryBean();
 		factory.setDataSource(getDataSource());
-		factory.setAnnotatedClasses(new Class[]{EmployeeRegistrationHLO.class});
+		factory.setAnnotatedClasses(new Class[]{EmployeeRegistrationHLO.class,CountryHlo.class,StateHlo.class});
 		Properties p=new Properties();
 		p.put("hibernate.show_sql", true);
 		p.put("hibernate.format_sql", true);
-		p.put("hibernate.hbm2ddl.auto", "create");
+		p.put("hibernate.hbm2ddl.auto", "update");
 		p.put("hibernate.dialect", "org.hibernate.dialect.OracleDialect");
 		factory.setHibernateProperties(p);
 		return factory;

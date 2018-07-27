@@ -30,6 +30,10 @@ public class StateHlo {
 	public void setSname(String sname) {
 		this.sname = sname;
 	}
+	@Override
+	public String toString() {
+		return "StateHlo [ssno=" + ssno + ", sname=" + sname + "]";
+	}
 	
 	
 

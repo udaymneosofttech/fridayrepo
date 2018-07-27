@@ -1,13 +1,18 @@
 package com.neosoft.repository;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.SqlQuery;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.neosoft.authenticate.EmployeeRegistrationHLO;
 import com.nt.domain.CountryHlo;
@@ -20,13 +25,61 @@ public class EmployeeDaoimpl {
 	@Autowired
 	private HibernateTemplate ht;
 	
+	//String hqlquery="select c.csno,c.countryname from CountryHlo c where c.csno=2";
+	private String hqlquerygetcountries="from CountryHlo c ";
+	private String hqlquerygetstates="select sname from states where csno=:countryno";
+	//private String hqlquerygetstates="select s.sname from states s where s.csno=:countryno";
+	public LinkedHashMap<String,Integer> getCountries(){
+		LinkedHashMap<String,Integer> countriesmap=new LinkedHashMap<>();
+		
+		ht.execute(new HibernateCallback<CountryHlo>() {
+
+			public CountryHlo doInHibernate(Session sess) throws HibernateException {
+				
+				Query query=sess.createQuery(hqlquerygetcountries);
+			
+				List<CountryHlo> list=query.list();
+			System.out.println(list.size());
+				list.forEach(s->{
+				countriesmap.put(s.getCountryname(), s.getCsno());
+				
+					
+				});
+				//System.out.println(countriesmap);
+				return null;
+			}
+		});
+		return countriesmap;
+		
+		
+	}
 	
-	public List<String> getCountries(){
+	
+	
+	public ArrayList<Object> getStates(int i){
+		ArrayList<Object> statelist=new ArrayList<>();
 		
+		ht.execute(new HibernateCallback<CountryHlo>() {
+
+			public CountryHlo doInHibernate(Session sess) throws HibernateException {
+				
+				SQLQuery query=sess.createSQLQuery(hqlquerygetstates);
+				query.setParameter("countryno", i);
+				
+				
+				List<Object[]> list=query.list();
 		
-		return null;
-		
-		
+				
+				for(Object obj:list){
+					statelist.add((String)obj);
+				}
+				
+
+				
+				return null;
+			}
+		});
+		return statelist;
 	}
 	
 	
@@ -85,19 +138,19 @@ public class EmployeeDaoimpl {
 	
 	//Through programatically i wil insert countries and states
 	
-	@Transactional(propagation=Propagation.REQUIRED,readOnly=false,transactionManager="hbtxmg")
+	//@Transactional(propagation=Propagation.REQUIRED,readOnly=false,transactionManager="hbtxmg")
 	
 	public int createCountries(){
 	StateHlo s=new StateHlo();
-	s.setSname("A.P");
+	s.setSname("bang1");
 	StateHlo s1=new StateHlo();
-	s1.setSname("telangana");
+	s1.setSname("bang2");
 	StateHlo s2=new StateHlo();
-	s.setSname("maharastra");
+	s2.setSname("bang3");
 	StateHlo s3=new StateHlo();
-	s1.setSname("tamilnadu");
+	s3.setSname("bang4");
 	StateHlo s4=new StateHlo();
-	s1.setSname("karnataka");
+	s4.setSname("bang5");
 	List<StateHlo> list=new ArrayList<StateHlo>();
 	list.add(s1);
 	list.add(s2);
@@ -105,7 +158,7 @@ public class EmployeeDaoimpl {
 	list.add(s4);
 	
 	CountryHlo c=new CountryHlo();
-	c.setCountryname("india");
+	c.setCountryname("bangladesh");
 	c.setList(list);
 	ht.save(c);
 	
