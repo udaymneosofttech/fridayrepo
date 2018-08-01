@@ -10,7 +10,7 @@ $(document).ready(function(){
 */
     $("#country").change(function(){
         var id = $(this).val();
-        alert(id);
+       // alert(id);
 
         $.ajax({
             url: 'states.do',

@@ -1,5 +1,10 @@
 package com.neosoft.service;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.neosoft.authenticate.EmployeeRegistrationHLO;
 import com.neosoft.authenticate.EmployeeRegistrationdto;
 import com.neosoft.repository.EmployeeDaoimpl;
+import com.nt.domain.CountryHlo;
 
 
 @Service
@@ -38,6 +44,34 @@ public class EmployeeServiceImpl {
 		
 		dao.getAuthenticateDetails(user);
 	}
+	
+	private Map<String,Integer> map=new LinkedHashMap<>();
+	
+	public Map<String,Integer> getListedCountries(){
+		
+		
+		List<CountryHlo> list=dao.getCountries();
+		
+		list.forEach(s->{
+			
+			map.put(s.getCountryname(),s.getCsno());
+		});
+		return map;
+	}
+	
+	public List<Object> getlistedstates(String countrykey){
+		int value=0;
+		List<Object> list=null;
+		if(map.containsKey(countrykey)){
+			
+			value=map.get(countrykey);
+		list=dao.getStates(value);
+		}
+		return list;
+		
+		
+	}
+	
 	
 
 }

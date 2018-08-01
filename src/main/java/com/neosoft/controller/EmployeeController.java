@@ -2,6 +2,7 @@ package com.neosoft.controller;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -23,8 +24,7 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeServiceImpl service;
-	@Autowired
-	private EmployeeDaoimpl dao;
+	
 	
 	
 	
@@ -56,19 +56,21 @@ public class EmployeeController {
 	public String getListedCountries(Map<String,Map<String,Integer>> map){
 		
 	//	dao.createCountries();
-		LinkedHashMap<String,Integer> countrieslist= dao.getCountries();
+		Map<String,Integer> countrieslist= service.getListedCountries();
 		System.out.println(countrieslist+"................");
 		map.put("countries", countrieslist);
-		return "countries";
+		return "EmployeeForm";
 }
+
+
 @RequestMapping(value="states.do",method=RequestMethod.GET)
-public  @ResponseBody ArrayList<Object> getListedStates(@RequestParam("id") String id,Map<String,ArrayList<Object>> list){
+public  @ResponseBody List<Object> getListedStates(@RequestParam("id") String id){//,Map<String,ArrayList<Object>> list
 	System.out.println("uday"+"...............ajax executed.");
 	System.out.println(id+".....id got");
 //	dao.createCountries();
-	ArrayList<Object> statelist= dao.getStates(Integer.valueOf(id));
+	List<Object> statelist= service.getlistedstates(id);
 
-	list.put("states", statelist);
+	//list.put("states", statelist);
 	return statelist;
 }
 

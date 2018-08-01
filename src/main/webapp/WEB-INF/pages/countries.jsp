@@ -18,19 +18,17 @@
 <body>
 <form action="#" method="get" id="myajaxform">
 Countries:<select name="countries" id="country">
-       <option value="0" disabled="disabled">- Selectcountry-</option>
+       <option value="0" disabled >- Selectcountry-</option>
        <c:forEach var="entry" items="${requestScope.countries}">
-               <option value="${entry.value}">${entry.key}</option>
+               <option value="${entry.key}">${entry.key}</option>
                  </c:forEach> 
-                 <!-- <option value=2>india</option>
-                  <option value=3>pakisthan</option>
-                   <option value=4>bangladesh</option> -->
+                 
                     
 </select>
 
 
         <div>states </div>
-        <select id="sel_user">
+        <select name="state" id="sel_user">
             <option value="0" disabled="disabled">- Select -</option>
         </select>
         

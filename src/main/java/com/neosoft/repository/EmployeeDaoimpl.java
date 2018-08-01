@@ -29,8 +29,11 @@ public class EmployeeDaoimpl {
 	private String hqlquerygetcountries="from CountryHlo c ";
 	private String hqlquerygetstates="select sname from states where csno=:countryno";
 	//private String hqlquerygetstates="select s.sname from states s where s.csno=:countryno";
-	public LinkedHashMap<String,Integer> getCountries(){
-		LinkedHashMap<String,Integer> countriesmap=new LinkedHashMap<>();
+	
+	//getting countries
+	public List<CountryHlo> getCountries(){
+		//LinkedHashMap<String,Integer> countriesmap=new LinkedHashMap<>();
+		List<CountryHlo> list1=new ArrayList<>();
 		
 		ht.execute(new HibernateCallback<CountryHlo>() {
 
@@ -39,17 +42,13 @@ public class EmployeeDaoimpl {
 				Query query=sess.createQuery(hqlquerygetcountries);
 			
 				List<CountryHlo> list=query.list();
-			System.out.println(list.size());
-				list.forEach(s->{
-				countriesmap.put(s.getCountryname(), s.getCsno());
-				
-					
-				});
+		    list1.addAll(list);
+			
 				//System.out.println(countriesmap);
 				return null;
-			}
+		}
 		});
-		return countriesmap;
+		return list1;
 		
 		
 	}
